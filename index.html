@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impact study · Respond to ad hoc customer questions over email · Scribe Optimize (concept)</title>
+<link rel="icon" href="assets/scribe-mark.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@0.454.0/font/lucide.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="org"><span class="mark"></span><span>Scribe Optimize</span><i class="icon-chevron-down"></i></div>
+    <nav class="nav">
+      <a><i class="icon-house"></i>Home</a>
+      <a class="open"><i class="icon-users"></i>Teams<i class="icon-chevron-down caret"></i></a>
+      <div class="teams">
+        <a class="team active"><span class="sq" style="background:#8c8fe0">C</span>Customer Support</a>
+        <a class="team"><span class="sq" style="background:#ff8f45">C</span>Customer Success</a>
+        <a class="team"><span class="sq" style="background:#4bd29a">S</span>Sales Ops Team</a>
+        <a class="team"><span class="sq" style="background:#5098c1">B</span>Billing Operations</a>
+        <a class="team"><span class="sq" style="background:#ff8f45">F</span>Finance (AP)</a>
+      </div>
+      <a><i class="icon-message-square"></i>Agent<span class="badge">1</span></a>
+      <a><i class="icon-file"></i>Artifacts</a>
+      <a><i class="icon-settings"></i>Settings</a>
+    </nav>
+    <div class="avatar">M</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumbs"><span>Customer Support</span><i class="icon-chevron-right"></i><span class="cur">Respond to ad hoc customer questions over email</span></div>
+      <button class="iconbtn"><i class="icon-ellipsis"></i></button>
+    </header>
+
+    <div class="content">
+      <div class="wf-head">
+        <div>
+          <h1 id="wf-title"></h1>
+          <p class="desc" id="wf-desc"></p>
+        </div>
+        <div class="wf-tools">
+          <span class="input"><i class="icon-search"></i>Search workflow</span>
+          <button class="btn"><i class="icon-filter"></i>Filter</button>
+        </div>
+      </div>
+
+      <div class="cards">
+        <section class="card">
+          <div class="card-title">Workflow metrics</div>
+          <div class="tiles">
+            <div class="tile"><div class="tv" id="m-inst"></div><div class="tl">Instances <i class="icon-info"></i></div></div>
+            <div class="tile"><div class="tv" id="m-avg"></div><div class="tl">Average time <i class="icon-info"></i></div></div>
+            <div class="tile"><div class="tv" id="m-total"></div><div class="tl">Total time <i class="icon-info"></i></div></div>
+            <div class="tile"><div class="tv" id="m-year"></div><div class="tl">Time per year <i class="icon-info"></i></div></div>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-title">Workflow apps</div>
+          <div id="apps" class="apps"></div>
+          <button class="btn sm">View all</button>
+        </section>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <button data-tab="tasks">Workflow tasks</button>
+        <button data-tab="instances">Workflow instances</button>
+        <button data-tab="impact" class="on">Impact study <span class="new">New</span></button>
+        <button class="plus"><i class="icon-plus"></i></button>
+      </div>
+
+      <section id="tab-tasks" class="tabpane" hidden>
+        <table class="grid"><thead><tr><th class="l">Task</th><th>Total instances</th><th>% Time</th><th>Total time <span class="arrow">&darr;</span></th><th>Est time/yr</th><th></th></tr></thead><tbody id="task-rows"></tbody></table>
+      </section>
+      <section id="tab-instances" class="tabpane" hidden>
+        <table class="grid"><thead><tr><th class="l">Participant group</th><th>Participants</th><th>Instances</th><th>Avg time</th><th>Adopted Dust drafting</th></tr></thead><tbody id="inst-rows"></tbody></table>
+      </section>
+
+      <section id="tab-impact" class="tabpane">
+        <div class="study-bar">
+          <label class="field"><span>Change</span>
+            <span class="select"><select id="change"><option>Dust reply-drafting agent</option></select><i class="icon-chevron-down"></i></span></label>
+          <label class="field"><span>Outcome</span>
+            <span class="select"><select id="outcome"></select><i class="icon-chevron-down"></i></span></label>
+          <label class="field"><span>Compared against</span><span class="pill">Pods that haven't adopted yet</span></label>
+          <div class="spacer"></div>
+          <button class="btn"><i class="icon-share-2"></i>Share</button>
+          <button class="btn dark"><i class="icon-file"></i>Save as artifact</button>
+        </div>
+        <p class="study-sum" id="study-sum"></p>
+
+        <div class="tiles four" id="headline"></div>
+
+        <div class="cards two">
+          <section class="card">
+            <div class="card-title">Effect by week since rollout <span class="muted">· minutes per instance vs. pods not yet using it</span></div>
+            <div id="es" class="chart"></div>
+            <div class="legend" id="es-legend"></div>
+          </section>
+          <section class="card">
+            <div class="card-title">Rollout</div>
+            <div id="rollout"></div>
+          </section>
+        </div>
+
+        <section class="card">
+          <div class="card-title">Where the time moved <span class="muted">· effect on each task, minutes per instance</span></div>
+          <table class="grid tasks"><thead><tr><th class="l">Task</th><th>Expected without it</th><th class="w">Effect (95% CI)</th><th></th><th>Before/after says</th></tr></thead><tbody id="eff-rows"></tbody></table>
+        </section>
+
+        <section class="card method">
+          <div class="card-title">How this is measured</div>
+          <p id="method"></p>
+        </section>
+      </section>
+
+      <footer class="foot">Unofficial concept demo by Mohith Gajjela. Not affiliated with Scribe. Synthetic data (<span id="foot-data"></span>). <a href="https://github.com/Mohith26/scribe-impact-study">Source and method</a></footer>
+    </div>
+    <button class="ask"><i class="icon-message-square"></i>Ask Agent</button>
+  </main>
+</div>
+<div class="tooltip" id="tip"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
