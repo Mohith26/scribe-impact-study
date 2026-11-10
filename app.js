@@ -73,10 +73,10 @@ function renderImpact() {
   const adopters = data.participants.filter((p) => p.g !== Infinity).length;
   const naiveRatio = S.naive.effect / S.minutes;
   const ciLabel = isAll ? '95% CI' : `${(100 * (1 - 0.05 / TASKS.length)).toFixed(1)}% CI (6 tasks)`;
-  const fmtHrs = (h) => (Math.abs(h) < 10 ? h.toFixed(1) : fmt(h));
+  const fmtHrs = (h) => (h < 0 ? '−' : '') + (Math.abs(h) < 10 ? Math.abs(h).toFixed(1) : fmt(Math.abs(h)));
   $('headline').innerHTML = `
     <div class="tile ${S.rel < 0 ? 'good' : ''}"><div class="tv">${pct(S.rel)}<span class="u sm">${mins(S.minutes)}</span></div><div class="tl">Effect on ${isAll ? 'time per instance' : 'task time per instance'}</div><div class="ci">${ciLabel} ${pct(S.relCI[0])} to ${pct(S.relCI[1])}</div></div>
-    <div class="tile"><div class="tv">${fmtHrs(hrs)}<span class="u">hrs/mo</span></div><div class="tl">${hrs >= 0 ? 'Saved' : 'Added'} at current adoption</div><div class="ci">${ciLabel} ${fmtHrs(hrsCI[0])} to ${fmtHrs(hrsCI[1])} · ${adopters} participants</div></div>
+    <div class="tile"><div class="tv">${fmtHrs(hrs)}<span class="u">hrs/mo</span></div><div class="tl">Saved at current adoption</div><div class="ci">${ciLabel} ${fmtHrs(hrsCI[0])} to ${fmtHrs(hrsCI[1])} · ${adopters} participants</div></div>
     <div class="tile warn"><div class="tv">${pct(S.naive.rel)}<span class="u sm">${mins(S.naive.effect)}</span></div><div class="tl">Simple before/after says</div><div class="ci">${Math.abs(S.minutes) > 0.02 && naiveRatio > 0 ? (naiveRatio > 1 ? `overstates the effect by ${Math.round((naiveRatio - 1) * 100)}%` : `understates the effect by ${Math.round((1 - naiveRatio) * 100)}%`) : 'reports a change the comparison does not support'}</div></div>
     <div class="tile ${S.pretrend.p >= 0.05 ? 'good' : 'warn'}"><div class="tv">p = ${S.pretrend.p.toFixed(2)}</div><div class="tl"><i class="${S.pretrend.p >= 0.05 ? 'icon-circle-check' : 'icon-triangle-alert'}"></i>${S.pretrend.p >= 0.05 ? 'Pre-rollout trends look parallel' : 'Adopters were already diverging'}</div><div class="ci">joint test of the ${S.pretrend.df} weeks before rollout</div></div>`;
 
